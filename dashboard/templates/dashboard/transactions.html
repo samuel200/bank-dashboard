@@ -1,0 +1,212 @@
+{% extends 'Header.html' %}
+{% block content %}
+{% load staticfiles %}
+<div class="se-pre-con"></div>
+<section>
+  <!-- sidebar menu start -->
+  {% include 'dashboard/sidebar.html' %}
+  <!-- //sidebar menu end -->
+  <!-- header-starts -->
+  <div class="header sticky-header">
+
+    <!-- notification menu start -->
+    <div class="menu-right">
+      <div class="navbar user-panel-top">
+        <!-- <div class="search-box">
+          <form action="#search-results.html" method="get">
+            <input class="search-input" placeholder="Search Here..." type="search" id="search">
+            <button class="search-submit" value=""><span class="fa fa-search"></span></button>
+          </form>
+        </div> -->
+        <div class="user-dropdown-details d-flex">
+          <!-- <div class="profile_details_left">
+            <ul class="nofitications-dropdown">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
+                    class="fa fa-bell-o"></i><span class="badge blue">3</span></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="notification_header">
+                      <h3>You have 3 new notifications</h3>
+                    </div>
+                  </li>
+                  <li><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar1.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>Johnson purchased template</p>
+                        <span>Just Now</span>
+                      </div>
+                    </a></li>
+                  <li class="odd"><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar2.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>New customer registered </p>
+                        <span>1 hour ago</span>
+                      </div>
+                    </a></li>
+                  <li><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar3.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>Lorem ipsum dolor sit amet </p>
+                        <span>2 hours ago</span>
+                      </div>
+                    </a></li>
+                  <li>
+                    <div class="notification_bottom">
+                      <a href="#all" class="bg-primary">See all notifications</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
+                    class="fa fa-comment-o"></i><span class="badge blue">4</span></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="notification_header">
+                      <h3>You have 4 new messages</h3>
+                    </div>
+                  </li>
+                  <li><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar1.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>Johnson purchased template</p>
+                        <span>Just Now</span>
+                      </div>
+                    </a></li>
+                  <li class="odd"><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar2.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>New customer registered </p>
+                        <span>1 hour ago</span>
+                      </div>
+                    </a></li>
+                  <li><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar3.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>Lorem ipsum dolor sit amet </p>
+                        <span>2 hours ago</span>
+                      </div>
+                    </a></li>
+                  <li><a href="#" class="grid">
+                      <div class="user_img"><img src="assets/images/avatar1.jpg" alt=""></div>
+                      <div class="notification_desc">
+                        <p>Johnson purchased template</p>
+                        <span>Just Now</span>
+                      </div>
+                    </a></li>
+                  <li>
+                    <div class="notification_bottom">
+                      <a href="#all" class="bg-primary">See all messages</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div> -->
+          <div class="profile_details">
+            <ul>
+              <li class="dropdown profile_details_drop">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3" aria-haspopup="true"
+                  aria-expanded="false">
+                  <div class="profile_img">
+                    <img src="{% static 'images/profileimg.jpg' %}" class="rounded-circle" alt="" />
+                    <div class="user-active">
+                      <span></span>
+                    </div>
+                  </div>
+                </a>
+                <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
+                  <li class="user-info">
+                    <h5 class="user-name">John Deo</h5>
+                    <span class="status ml-2">Available</span>
+                  </li>
+                  {% include 'dashboard/profile-header-links.html' %}
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--notification menu end -->
+  </div>
+  <!-- //header-ends -->
+  <!-- main content start -->
+  <div class="main-content">
+    <!-- content -->
+    <div class="container-fluid content-top-gap">
+      <!-- breadcrumbs -->
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb my-breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+        </ol>
+      </nav>
+      <!-- //breadcrumbs -->
+      <!-- cards -->
+      <section class="template-cards">
+        <!-- Grid Columns -->
+        <div class="card card_border mb-5">
+          <div class="cards__heading">
+            <h3>Transactions</h3>
+          </div>
+          <div class="card-body" id='transactions-holder'>
+            <div class="container">
+                <!-- <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>  -->
+                <ul class="responsive-table">
+                  <li class="table-header">
+                      <div class="column column-2">Id</div>
+                      <div class="column column-3">Transaction</div>
+                      <div class="column column-3">Amount</div>
+                      <div class="column column-3">Payment Status</div>
+                  </li>
+                  {% for transaction in user.transactions.all %}
+                <li class="table-umnrow"umn>
+                  <div class="column column-2" data-label="Id">{{ transaction.date }}</div>
+                  <div class="column column-3" data-label="Transaction">{{ transaction.trans_type }}</div>
+                  <div class="column column-3" data-label="Amount">${{ transaction.amount }}</div>
+                  <div class="column column-3" data-label="Payment Status">{{ transaction.status }}</div>
+                </li>
+                {% endfor %}
+                {% if user.transactions.count < 1 %}
+                <li class="table-umnrow"umn>
+                  <div class="column">No Transaction Has Been Made</div>
+                </li>
+                {% endif %}
+                <!-- <li class="table-umnrow"umn>
+                  <div class="column column-1" data-label="Id">42442</div>
+                  <div class="column column-2" data-label="Transaction">Jennifer Smith</div>
+                  <div class="column column-3" data-label="Amount">$220</div>
+                  <div class="column column-4" data-label="Payment Status">Pending</div>
+                </li>
+                <li class="table-umnrow"umn>
+                  <div class="column column-1" data-label="Id">42257</div>
+                  <div class="column column-2" data-label="Transaction">John Smith</div>
+                  <div class="column column-3" data-label="Amount">$341</div>
+                  <div class="column column-4" data-label="Payment Status">Pending</div>
+                </li>
+                <li class="table-umnrow"umn>
+                  <div class="column column-1" data-label="Id">42311</div>
+                  <div class="column column-2" data-label="Transaction">John Carpenter</div>
+                  <div class="column column-3" data-label="Amount">$115</div>
+                  <div class="column column-4" data-label="Payment Status">Pending</div>
+                </li> -->
+              </ul>
+              </div>
+          </div>
+        </div>
+        <!-- /Grid Columns -->
+
+      </section>
+      <!-- //cards -->
+
+    </div>
+    <!-- //content -->
+  </div>
+  <!-- main content end-->
+  </section>
+<!--footer section start-->
+{% include 'dashboard/footer.html' %}
+<!--footer section end-->
+{% endblock %}

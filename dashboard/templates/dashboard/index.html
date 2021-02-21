@@ -1,0 +1,246 @@
+{% extends 'Header.html' %}
+
+{% block content %}
+{% load staticfiles %}
+<script>
+  window.transData = [];
+  window.transDate = [];
+</script>
+{% for transaction in transactions.all %}
+<script>
+  window.transData.push("{{transaction.amount}}");
+  window.transDate.push("{{transaction.id}}");
+</script>
+{% endfor %}
+<body class="sidebar-menu-collapsed">
+  <div class="se-pre-con"></div>
+<section>
+  <!-- sidebar menu start -->
+  {% include 'dashboard/sidebar.html' %}
+  <!-- //sidebar menu end -->
+  <!-- header-starts -->
+  <div class="header sticky-header">
+
+    <!-- notification menu start -->
+    <div class="menu-right">
+      <div class="navbar user-panel-top">
+        <!--<div class="search-box">
+          <form action="#search-results.html" method="get">
+            <input class="search-input" placeholder="Search Here..." type="search" id="search">
+            <button class="search-submit" value=""><span class="fa fa-search"></span></button>
+          </form>
+        </div>-->
+        <div class="user-dropdown-details d-flex">
+          
+          <div class="profile_details">
+            <ul>
+              <li class="dropdown profile_details_drop">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3" aria-haspopup="true"
+                  aria-expanded="false">
+                  <div class="profile_img">
+                    <img src="{{ details.profile_image.url }}" class="rounded-circle" alt="" />
+                    <div class="user-active">
+                      <span></span>
+                    </div>
+                  </div>
+                </a>
+                <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
+                  <li class="user-info">
+                    <h5 class="user-name">{{ user.username }}</h5>
+                    <span class="status ml-2">{{ details.account_number }}</span>
+                  </li>
+                  {% include 'dashboard/profile-header-links.html' %}
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--notification menu end -->
+  </div>
+  <!-- //header-ends -->
+  <!-- main content start -->
+<div class="main-content">
+
+  <!-- content -->
+  <div class="container-fluid content-top-gap">
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb my-breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+      </ol>
+    </nav>
+    <div class="welcome-msg pt-3 pb-4">
+      <h1>Hi <span class="text-primary">{{ user.first_name }}</span>, Welcome back</h1>
+      <!--<p>Very detailed & featured admin.</p>-->
+    </div>
+
+    <!-- statistics data -->
+    <div class="statistics">
+      <div class="row">
+        <div class="col-xl-6 pr-xl-2">
+          <div class="row">
+            <div class="col-sm-6 pr-sm-2 statistics-grid">
+              <div class="card card_border border-primary-top p-4">
+                <i class="lnr lnr-users"> </i>
+                <h3 class="text-primary number">${{ easy_saver_balance }}</h3>
+                <p class="stat-text">Easy Saver</p>
+              </div>
+            </div>
+            <div class="col-sm-6 pl-sm-2 statistics-grid">
+              <div class="card card_border border-primary-top p-4">
+                <i class="lnr lnr-eye"> </i>
+                <h3 class="text-danger number">${{ loan_balance }}</h3>
+                <p class="stat-text">Loans(Debt)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 pl-xl-2">
+          <div class="row">
+            <div class="col-sm-6 pr-sm-2 statistics-grid">
+              <div class="card card_border border-primary-top p-4">
+                <i class="lnr lnr-cloud-download"> </i>
+                <h3 class="text-primary number">${{ total_balance }}</h3>
+                <p class="stat-text">Total Balance</p>
+              </div>
+            </div>
+            <div class="col-sm-6 pl-sm-2 statistics-grid">
+              <div class="card card_border border-primary-top p-4">
+                <i class="lnr lnr-cart"> </i>
+                <h3 class="text-success number">${{ available_balance }}</h3>
+                <p class="stat-text">Available Balance</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //statistics data -->
+
+    <!-- charts -->
+    <div class="chart">
+      <div class="row">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+              Savings
+            </div>
+            <div class="card-body">
+              <!-- bar chart -->
+              <div id="container">
+                <canvas id="barchart"></canvas>
+              </div>
+              <!-- //bar chart -->
+            </div>
+            <!-- <div class="card-footer text-muted chart-grid__footer">
+              Updated 2 hours ago
+            </div> -->
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+              Summary
+            </div>
+            <div class="card-body">
+              <!-- line chart -->
+              <div id="container">
+                <canvas id="linechart"></canvas>
+              </div>
+              <!-- //line chart -->
+            </div>
+            <!-- <div class="card-footer text-muted chart-grid__footer">
+              Updated just now
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- //content -->
+</div>
+<!-- main content end-->
+</section>
+  <!--footer section start-->
+{% include 'dashboard/footer.html' %}
+<!--footer section end-->
+{% endblock %}
+
+{% block script %}
+<script>
+  new Chart(document.getElementById("linechart"), {
+	type: 'line',
+	data: {
+		labels: window.transDate,
+		datasets: [{
+			label: 'Line Representation Of Transaction Data',
+			backgroundColor: window.chartColors.navy,
+			borderColor: window.chartColors.navy,
+			data: window.transData,
+			fill: false,
+		}]
+	},
+	options: {
+		responsive: true,
+		// title: {
+		// 	display: true,
+		// 	text: 'Chart.js Line Chart'
+		// },
+		tooltips: {
+			mode: 'index',
+			intersect: false,
+		},
+		hover: {
+			mode: 'nearest',
+			intersect: true
+		},
+		scales: {
+			xAxes: [{
+				display: true,
+				scaleLabel: {
+					display: true,
+					labelString: 'Transaction Index'
+				}
+			}],
+			yAxes: [{
+				display: true,
+				scaleLabel: {
+					display: true,
+					labelString: 'Amount'
+				}
+			}]
+		}
+	}
+});
+
+  new Chart(document.getElementById("barchart"), {
+      type: 'bar',
+      data: {
+          labels: window.transDate,
+          datasets: [{
+              data: window.transData,
+              label: 'Bar Char Representation Of Transaction Data',
+              backgroundColor: "#4755AB",
+              borderWidth: 1,
+          }, 
+          // {
+          // 	data: [30,10,70,15,30,20,70,80],
+          // 	label: 'Dataset 2',
+          // 	backgroundColor: "#E7EDF6",
+          // 	borderWidth: 1,
+          // }
+      ]
+      },
+      options: {
+          responsive: true,
+          legend: {
+              position: 'top',
+          },
+      }
+  });
+</script>
+{% endblock %}

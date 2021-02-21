@@ -1,0 +1,216 @@
+{% extends 'Header.html' %}
+
+{% block content %}
+{% load staticfiles %}
+    <script>
+        window.savingsData = [];
+        window.savingsDate = [];
+    </script>
+    <div class="se-pre-con"></div>
+    <section>
+        <!-- sidebar menu start -->
+        {% include 'dashboard/sidebar.html' %}
+        <!-- //sidebar menu end -->
+        <!-- header-starts -->
+        <div class="header sticky-header">
+
+            <!-- notification menu start -->
+            <div class="menu-right">
+                <div class="navbar user-panel-top">
+                    <div class="user-dropdown-details d-flex">
+                        <div class="profile_details">
+                            <ul>
+                                <li class="dropdown profile_details_drop">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <div class="profile_img">
+                                            <img src="{{ details.profile_image.url }}" class="rounded-circle" alt="" />
+                                            <div class="user-active">
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
+                                        <li class="user-info">
+                                            <h5 class="user-name">{{ user.username }}</h5>
+                                            <span class="status ml-2">{{ details.account_number}}</span>
+                                        </li>
+                                        {% include 'dashboard/profile-header-links.html' %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--notification menu end -->
+        </div>
+        <!-- //header-ends -->
+        <!-- main content start -->
+        <div class="main-content">
+
+            <!-- content -->
+            <div class="container-fluid content-top-gap">
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb my-breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <div class="welcome-msg pt-3 pb-4">
+                    <h1>Hi <span class="text-primary">{{ user.first_name }}</span>, Welcome back</h1>
+                    <!--<p>Very detailed & featured admin.</p>-->
+                </div>
+
+                <!-- statistics data -->
+                <div class="statistics">
+                    <div class="row">
+                        <div class="col-sm-4 pr-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                                <i class="lnr lnr-users"> </i>
+                                <h3 class="text-primary number">${{ easy_saver_balance }}</h3>
+                                <p class="stat-text">Easy Saver</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 pl-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                                <i class="lnr lnr-cart"> </i>
+                                <h3 class="text-success number">${{ available_balance }}</h3>
+                                <p class="stat-text">Available Balance</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 pr-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                                <i class="lnr lnr-cloud-download"> </i>
+                                <h3 class="text-primary number">${{ total_balance }}</h3>
+                                <p class="stat-text">Total Balance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- //statistics data -->
+
+                <!-- charts -->
+                <div class="chart">
+                    <div class="row">
+                        <div class="col-lg-12 pr-lg-2 chart-grid">
+                            <div class="card text-center card_border">
+                                <div class="card-header chart-grid__header">
+                                    Savings
+                                </div>
+                                <div class="card-body">
+                                    <!-- bar chart -->
+                                    <div id="container">
+                                        <canvas id="barchart"></canvas>
+                                    </div>
+                                    <!-- //bar chart -->
+                                </div>
+                                <!-- <div class="card-footer text-muted chart-grid__footer">
+                                    Updated 2 hours ago
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <section class="template-cards">
+                    <!-- Grid Columns -->
+                    <div class="card card_border mb-5">
+                      <div class="cards__heading">
+                        <h3>Transactions</h3>
+                      </div>
+                      <div class="card-body" id='transactions-holder'>
+                        <div class="container">
+                            <!-- <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>  -->
+                            <ul class="responsive-table">
+                                <li class="table-header">
+                                    <div class="column column-2">Id</div>
+                                    <div class="column column-3">Transaction</div>
+                                    <div class="column column-3">Amount</div>
+                                    <div class="column column-3">Payment Status</div>
+                                </li>
+                                {% for transaction in saving_transactions.all %}
+                              <li class="table-umnrow"umn>
+                                <div class="column column-2" data-label="Id">{{ transaction.date }}</div>
+                                <div class="column column-3" data-label="Transaction">{{ transaction.trans_type }}</div>
+                                <div class="column column-3" data-label="Amount">${{ transaction.amount }}</div>
+                                <div class="column column-3" data-label="Payment Status">{{ transaction.status }}</div>
+                              </li>
+                              <script>
+                                  window.savingsData.push("{{transaction.amount}}");
+                                  window.savingsDate.push("{{transaction.date}}")
+                              </script>
+                              {% endfor %}
+                              {% if transaction_count < 1 %}
+                              <li class="table-umnrow"umn>
+                                <div class="column">No Savings Transaction Has Been Made</div>
+                              </li>
+                              {% endif %}
+                              <!-- <li class="table-umnrow"umn>
+                                <div class="column column-1" data-label="Id">42442</div>
+                                <div class="column column-2" data-label="Transaction">Jennifer Smith</div>
+                                <div class="column column-3" data-label="Amount">$220</div>
+                                <div class="column column-4" data-label="Payment Status">Pending</div>
+                              </li>
+                              <li class="table-umnrow"umn>
+                                <div class="column column-1" data-label="Id">42257</div>
+                                <div class="column column-2" data-label="Transaction">John Smith</div>
+                                <div class="column column-3" data-label="Amount">$341</div>
+                                <div class="column column-4" data-label="Payment Status">Pending</div>
+                              </li>
+                              <li class="table-umnrow"umn>
+                                <div class="column column-1" data-label="Id">42311</div>
+                                <div class="column column-2" data-label="Transaction">John Carpenter</div>
+                                <div class="column column-3" data-label="Amount">$115</div>
+                                <div class="column column-4" data-label="Payment Status">Pending</div>
+                              </li> -->
+                            </ul>
+                          </div>
+                      </div>
+                    </div>
+                    <!-- /Grid Columns -->
+            
+                  </section>
+
+            </div>
+            <!-- //content -->
+        </div>
+        <!-- main content end-->
+    </section>
+
+    <!--footer section start-->
+    {% include 'dashboard/footer.html' %}
+    {% endblock %}
+    {% block script %}
+    <script>
+        new Chart(document.getElementById("barchart"), {
+            type: 'bar',
+            data: {
+                labels: window.savingsDate,
+                datasets: [{
+                    data: window.savingsData,
+                    label: 'Transaction Data',
+                    backgroundColor: "#4755AB",
+                    borderWidth: 1,
+                }, 
+                // {
+                // 	data: [30,10,70,15,30,20,70,80],
+                // 	label: 'Dataset 2',
+                // 	backgroundColor: "#E7EDF6",
+                // 	borderWidth: 1,
+                // }
+            ]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+            }
+        });
+    </script>
+    {% endblock %}

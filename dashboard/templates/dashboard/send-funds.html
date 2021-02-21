@@ -1,0 +1,187 @@
+{% extends 'Header.html' %}
+
+{% block content %}
+{% load staticfiles %}
+    <div class="se-pre-con"></div>
+    <section>
+        <!-- sidebar menu start -->
+        {% include 'dashboard/sidebar.html' %}
+        <!-- //sidebar menu end -->
+        <!-- header-starts -->
+        <div class="header sticky-header">
+
+            <!-- notification menu start -->
+            <div class="menu-right">
+                <div class="navbar user-panel-top">
+                    <div class="user-dropdown-details d-flex">
+                        <div class="profile_details">
+                            <ul>
+                                <li class="dropdown profile_details_drop">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <div class="profile_img">
+                                            <img src="{{ details.profile_image.url }}" class="rounded-circle" alt="" />
+                                            <div class="user-active">
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
+                                        <li class="user-info">
+                                            <h5 class="user-name">{{ user.username }}</h5>
+                                            <span class="status ml-2">{{ details.account_number }}</span>
+                                        </li>
+                                        {% include 'dashboard/profile-header-links.html' %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--notification menu end -->
+        </div>
+        <!-- //header-ends -->
+        <!-- main content start -->
+        <div class="main-content">
+
+            <!-- content -->
+            <div class="container-fluid content-top-gap">
+                <!-- breadcrumbs -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb my-breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Send Money</li>
+                    </ol>
+                </nav>
+                <!-- //breadcrumbs -->
+
+                <div class="statistics">
+                    <div class="row">
+                      <div class="col-xl-6 pr-xl-2">
+                        <div class="row">
+                          <div class="col-sm-6 pr-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                              <i class="lnr lnr-users"> </i>
+                              <h3 class="text-primary number">${{ easy_saver_balance }}</h3>
+                              <p class="stat-text">Easy Saver</p>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 pl-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                              <i class="lnr lnr-eye"> </i>
+                              <h3 class="text-danger number">${{ loan_balance }}</h3>
+                              <p class="stat-text">Loans(Debt)</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6 pl-xl-2">
+                        <div class="row">
+                          <div class="col-sm-6 pr-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                              <i class="lnr lnr-cloud-download"> </i>
+                              <h3 class="text-primary number">${{ total_balance }}</h3>
+                              <p class="stat-text">Total Balance</p>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 pl-sm-2 statistics-grid">
+                            <div class="card card_border border-primary-top p-4">
+                              <i class="lnr lnr-cart"> </i>
+                              <h3 class="text-success number">${{ available_balance }}</h3>
+                              <p class="stat-text">Available Balance</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- forms -->
+                <div class="container">
+                    <section class="forms">
+                        <!-- forms 1 -->
+                        <div class="card card_border py-2 mb-4">
+                            <div class="cards__heading">
+                                <h3>Fund Transfer Form <span></span></h3>
+                            </div>
+                            {% if error_message %}
+                                <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                            {% endif %}
+                            {% if success_message %}
+                                <div class="alert alert-success" role="alert">{{ success_message }}</div>
+                                <script>
+                                    setTimeout(function(){
+                                        window.location.href = "/dashboard/";
+                                    }, 3000)
+                                </script>
+                            {% endif %}
+                            
+                            <div class="card-body">
+                                <form action="{% url 'dashboard:send_funds' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="inputrecipientname" class="input__label">Recipient's Name</label>
+                                        {% if name %}
+                                        <input type="text" class="form-control input-style" id="inputrecipientname"
+                                            aria-describedby="Reciept Name" placeholder="Recipient Name" name="name" value="{{ name }}" required>
+                                        {% else %}
+                                            <input type="text" class="form-control input-style" id="inputrecipientname"
+                                                aria-describedby="Reciept Name" placeholder="Recipient Name" name="name" required>
+
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recipientaccountnumber" class="input__label">Recipient's Account Number</label>
+                                        {% if account_number %}
+                                        <input type="number" class="form-control input-style" id="recipientaccountnumber"
+                                            placeholder="ex. 001203940" value="{{account_number}}" name="account-number" required>
+                                        {% else %}
+                                        <input type="number" class="form-control input-style" id="recipientaccountnumber"
+                                        placeholder="ex. 001203940" name="account-number" required>
+
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="financialinstitution" class="input__label">Financial Institution</label>
+                                        {% if financial_institution %}
+                                        <input type="text" class="form-control input-style" id="financialinstitution"
+                                            placeholder="Financial Institution" name="financial-institution" value="{{ financial_institution }}" required>
+                                        {% else %}
+                                        <input type="text" class="form-control input-style" id="financialinstitution"
+                                            placeholder="Financial Institution" name="financial-institution" required>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="amount" class="input__label">Amount</label>
+                                        {% if financial_institution %}
+                                        <input type="number" class="form-control input-style" id="amount"
+                                            placeholder="Minimum of $10.0" name="amount" value="{{ amount }}" required>
+                                        {% else %}
+                                        <input type="number" class="form-control input-style" id="amount"
+                                            placeholder="Minimum of $10.0" name="amount" required>
+                                        {% endif %}
+                                        
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary btn-style mt-4">Send Fund</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- //forms 1 -->
+                    </section>
+                </div>
+                <!-- //forms -->
+    </section>
+    <!-- //forms  -->
+
+    </div>
+    <!-- //content -->
+
+    </div>
+    <!-- main content end-->
+    </section>
+    <!--footer section start-->
+    {% include 'dashboard/footer.html' %}
+    <!--footer section end-->
+    {% endblock %}

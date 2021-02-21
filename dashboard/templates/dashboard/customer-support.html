@@ -1,0 +1,103 @@
+{% extends 'Header.html' %}
+{% block content %}
+  {% load staticfiles %}
+  <div class="se-pre-con"></div>
+  <section>
+    <!-- sidebar menu start -->
+    {% include 'dashboard/sidebar.html' %}
+    <!-- //sidebar menu end -->
+    <!-- header-starts -->
+    <div class="header sticky-header">
+
+      <!-- notification menu start -->
+      <div class="menu-right">
+        <div class="navbar user-panel-top">
+          <div class="user-dropdown-details d-flex">
+            <div class="profile_details">
+              <ul>
+                <li class="dropdown profile_details_drop">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3" aria-haspopup="true"
+                    aria-expanded="false">
+                    <div class="profile_img">
+                      <img src="{{ details.profile_image.url }}" class="rounded-circle" alt="" />
+                      <div class="user-active">
+                        <span></span>
+                      </div>
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
+                    <li class="user-info">
+                      <h5 class="user-name">{{ user.username }}</h5>
+                      <span class="status ml-2">{{ details.account_number }}</span>
+                    </li>
+                    {% include 'dashboard/profile-header-links.html' %}
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--notification menu end -->
+    </div>
+    <!-- //header-ends -->
+    <!-- main content start -->
+    <div class="main-content">
+
+      <!-- content -->
+      <div class="container-fluid content-top-gap">
+
+        <!-- breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-4">
+          <ol class="breadcrumb my-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="blocks">Customer Support</a></li>
+          </ol>
+        </nav>
+        <!-- //breadcrumbs -->
+
+        <!-- card heading -->
+        <div class="cards__heading">
+          <h3>Customer Support</h3>
+        </div>
+        <!-- //card heading -->
+
+        <div class="card card_border py-2 mb-4">
+          <div class="cards__heading">
+            <h3>Get In Touch With Us <span></span></h3>
+          </div>
+          <div class="card-body">
+            {% if success_message %}
+            <div class="alert alert-success" role="alert">{{ success_message }}</div>
+            {% endif %}
+            <form action="#" method="post">{% csrf_token %}
+              <div class="form-group">
+                <label for="inputAddress" class="input__label">Full Name</label>
+                <input type="text" class="form-control input-style" id="inputAddress" name="full-name" placeholder="Enter Name">
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="input__label">Email</label>
+                <input type="email" class="form-control input-style" id="inputEmail3" name="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="message" class="col-sm-2 col-form-label input__label">Message</label>
+                <textarea class="form-control input-style" id="message" name="message" placeholder="Enter Message"></textarea>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary btn-style">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- //content -->
+
+    </div>
+    <!-- main content end-->
+  </section>
+  <!--footer section start-->
+  {% include 'dashboard/footer.html' %}
+  <!--footer section end-->
+  {% endblock %}
